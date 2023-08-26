@@ -1,9 +1,11 @@
 package com.bank.accountSystem.controller;
 
 
+import com.bank.accountSystem.dto.DepositRequest;
 import com.bank.accountSystem.model.Account;
 import com.bank.accountSystem.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -19,37 +21,36 @@ public class AccountController {
 
     //OBTENER TODAS LAS CUENTAS
     @GetMapping
-    public List<Account> getAllAccounts(){
-        return accountService.getAllAccounts();
+    public ResponseEntity<List<Account>> getAllAccounts(){
+        List<Account> accounts = accountService.getAllAccounts();
+        if (accounts.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }else{
+            return ResponseEntity.ok(accounts);
+        }
     }
 
     //1.1 APERTURA DE CUENTA
     @PostMapping
     public ResponseEntity<Account> saveAccount(@RequestBody Account account){
         Account savedAccount = accountService.saveAccount(account);
-
-        URI ubicacion = ServletUriComponentsBuilder.fromCurrentRequest().path("/{accountNumber}")
-                .buildAndExpand(savedAccount.getAccountNumber()).toUri();
-
-        return ResponseEntity.created(ubicacion).body(savedAccount);
+        return ResponseEntity.ok(savedAccount);
     }
 
-    /*//1.2 TRANFERENCIA A OTRA CUENTA
-    @PostMapping("/{account_number}/deposit")
-    public ResponseEntity<String> realizarDeposito(@PathVariable("account_number") Long account_number, @RequestBody DepositRequest depositRequest) {
-        String resultDeposito = accountService.deposit(account_number, depositRequest.getAmount());
-
-        if (resultDeposito.equals("La cuenta no existe")) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultDeposito);
+    //1.2 TRANFERENCIA A OTRA CUENTA
+    @PostMapping("/{accountNumber}/deposit")
+    public ResponseEntity<String> realizarDeposito(@PathVariable("accountNumber") String accountNumber, @RequestBody DepositRequest depositRequest) {
+        String resultDeposit = accountService.deposit(accountNumber, depositRequest.getAmount());
+        if (resultDeposit.equals("Account doesn´t exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultDeposit);
         }
-
-        return ResponseEntity.ok(resultDeposito);
-    }*/
+        return ResponseEntity.ok(resultDeposit);
+    }
 
 
     //1.4 CONSULTAR CUENTA
-    @GetMapping("/{account_number}")
-    public Account findByAccountNumber(@PathVariable Long accountNumber){
+    @GetMapping("/{accountNumber}")
+    public Account findByAccountNumber(@PathVariable String accountNumber){
         return accountService.findByAccountNumber(accountNumber);
     }
 
