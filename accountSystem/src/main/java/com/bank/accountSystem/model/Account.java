@@ -9,16 +9,16 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(unique = true)
     private String accountNumber;
 
     @Column
-    private String user;
+    private String owner;
 
     @Column
     private double initial_balance;
 
-    private boolean enable;
+    /*private boolean isEnabled;*/
 
 
     public Long getId() {
@@ -37,12 +37,12 @@ public class Account {
         this.accountNumber = accountNumber;
     }
 
-    public String getUser() {
-        return user;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public double getInitial_balance() {

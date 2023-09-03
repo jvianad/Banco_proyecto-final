@@ -25,9 +25,10 @@ public class AccountController {
         List<Account> accounts = accountService.getAllAccounts();
         if (accounts.isEmpty()){
             return ResponseEntity.noContent().build();
-        }else{
-            return ResponseEntity.ok(accounts);
         }
+
+        return ResponseEntity.ok(accounts);
+
     }
 
     //1.1 APERTURA DE CUENTA
