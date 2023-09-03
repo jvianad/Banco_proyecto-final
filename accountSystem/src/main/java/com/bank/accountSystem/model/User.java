@@ -1,6 +1,8 @@
 package com.bank.accountSystem.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -20,6 +22,9 @@ public class User {
 
     @Column
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Account> accounts = new HashSet<>();
 
     public User() {
     }

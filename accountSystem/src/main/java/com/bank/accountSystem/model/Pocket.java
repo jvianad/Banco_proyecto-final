@@ -12,6 +12,9 @@ public class Pocket {
     private String pocketName;
     @Column
     private double initial_balance;
+    @ManyToOne
+    @JoinColumn(name="account_id", nullable=false)
+    private Account account;
 
     public Pocket() {
     }
@@ -44,5 +47,13 @@ public class Pocket {
 
     public void setInitial_balance(double initial_balance) {
         this.initial_balance = initial_balance;
+    }
+
+    public Account getAccountNumber() {
+        return account;
+    }
+
+    public void setAccountNumber(Account accountNumber) {
+        this.account = accountNumber;
     }
 }

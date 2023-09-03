@@ -1,6 +1,8 @@
 package com.bank.accountSystem.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "account")
@@ -20,6 +22,12 @@ public class Account {
 
     /*private boolean isEnabled;*/
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private Set<Pocket> pockets = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private User user;
 
     public Long getId() {
         return id;
