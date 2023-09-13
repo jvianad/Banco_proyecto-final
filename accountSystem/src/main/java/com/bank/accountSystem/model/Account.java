@@ -24,11 +24,11 @@ public class Account {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Pocket> pockets = new HashSet<>();
-
-    @ManyToOne
-    @JoinColumn(name="user_id", nullable=false)
-    private User user;
-
+    /*
+        @ManyToOne
+        @JoinColumn(name="user_id", nullable=false)
+        private User user;
+    */
     public Long getId() {
         return id;
     }
@@ -59,5 +59,13 @@ public class Account {
 
     public void setInitial_balance(double initial_balance) {
         this.initial_balance = initial_balance;
+    }
+
+    public Set<Pocket> getPockets() {
+        return pockets;
+    }
+
+    public void setPockets(Set<Pocket> pockets) {
+        this.pockets = pockets;
     }
 }

@@ -10,6 +10,8 @@ public class Pocket {
     private Integer id;
     @Column
     private String pocketName;
+    @Column(unique = true)
+    private String pocketNumber;
     @Column
     private double initial_balance;
     @ManyToOne
@@ -55,5 +57,21 @@ public class Pocket {
 
     public void setAccountNumber(Account accountNumber) {
         this.account = accountNumber;
+    }
+
+    public String getPocketNumber() {
+        return pocketNumber;
+    }
+
+    public void setPocketNumber(String pocketNumber) {
+        this.pocketNumber = pocketNumber;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

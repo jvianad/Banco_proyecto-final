@@ -1,5 +1,6 @@
 package com.bank.accountSystem.service;
 
+import com.bank.accountSystem.dto.TransferRequest;
 import com.bank.accountSystem.model.Account;
 import com.bank.accountSystem.repository.iAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,21 @@ public class AccountService {
         return "Successful deposit";
     }
 
+    public String makeTransfer(TransferRequest transferRequest) {
+        Account sourceAccountNumber = accountRepository.findByAccountNumber(transferRequest.getSourceAccountNumber());
+        Account targetAccountNumber = accountRepository.findByAccountNumber(transferRequest.getTargetAccountNumber());
+        if (sourceAccountNumber == null || targetAccountNumber == null) {
+            return "Una o ambas cuentas no existen";
+        }
+        double amount = transferRequest.getAmount();
+        if (sourceAccountNumber.getInitial_balance() < amount) {
+            return "Saldo insuficiente en la cuenta de origen";
+        }
+        sourceAccountNumber.setInitial_balance(sourceAccountNumber.getInitial_balance() - amount);
+        targetAccountNumber.setInitial_balance(targetAccountNumber.getInitial_balance() + amount);
+        accountRepository.save(sourceAccountNumber);
+        accountRepository.save(targetAccountNumber);
+        return "Transferencia realizada exitosamente";
+    }
 
 }
