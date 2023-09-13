@@ -6,7 +6,6 @@ import javax.persistence.*;
 @Table(name = "pocket")
 public class Pocket {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
     private String pocketName;
@@ -21,10 +20,12 @@ public class Pocket {
     public Pocket() {
     }
 
-    public Pocket(Integer id, String pocketName, double initial_balance) {
+    public Pocket(Integer id, String pocketName, String pocketNumber, double initial_balance, Account account) {
         this.id = id;
         this.pocketName = pocketName;
+        this.pocketNumber = pocketNumber;
         this.initial_balance = initial_balance;
+        this.account = account;
     }
 
     public Integer getId() {

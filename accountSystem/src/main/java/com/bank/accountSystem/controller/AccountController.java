@@ -47,9 +47,9 @@ public class AccountController {
     @PostMapping("/transfer")
     public ResponseEntity<String> makeTransfer(@RequestBody TransferRequest transferRequest) {
         String resultTransfer = accountService.makeTransfer(transferRequest);
-        if (resultTransfer.equals("Una o ambas cuentas no existen")) {
+        if (resultTransfer.equals("One or both accounts do not exist")) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resultTransfer);
-        } else if (resultTransfer.equals("Saldo insuficiente en la cuenta de origen")) {
+        } else if (resultTransfer.equals("Insufficient balance in the source account")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resultTransfer);
         }
         return ResponseEntity.ok(resultTransfer);

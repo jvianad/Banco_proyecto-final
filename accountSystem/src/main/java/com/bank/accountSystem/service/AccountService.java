@@ -39,17 +39,17 @@ public class AccountService {
         Account sourceAccountNumber = accountRepository.findByAccountNumber(transferRequest.getSourceAccountNumber());
         Account targetAccountNumber = accountRepository.findByAccountNumber(transferRequest.getTargetAccountNumber());
         if (sourceAccountNumber == null || targetAccountNumber == null) {
-            return "Una o ambas cuentas no existen";
+            return "One or both accounts do not exist";
         }
         double amount = transferRequest.getAmount();
         if (sourceAccountNumber.getInitial_balance() < amount) {
-            return "Saldo insuficiente en la cuenta de origen";
+            return "Insufficient balance in the source account";
         }
         sourceAccountNumber.setInitial_balance(sourceAccountNumber.getInitial_balance() - amount);
         targetAccountNumber.setInitial_balance(targetAccountNumber.getInitial_balance() + amount);
         accountRepository.save(sourceAccountNumber);
         accountRepository.save(targetAccountNumber);
-        return "Transferencia realizada exitosamente";
+        return "transfer completed successfully";
     }
 
 }

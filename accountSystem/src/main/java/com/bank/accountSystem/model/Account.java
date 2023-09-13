@@ -8,7 +8,6 @@ import java.util.Set;
 @Table(name = "account")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
@@ -24,11 +23,7 @@ public class Account {
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Pocket> pockets = new HashSet<>();
-    /*
-        @ManyToOne
-        @JoinColumn(name="user_id", nullable=false)
-        private User user;
-    */
+
     public Long getId() {
         return id;
     }
@@ -67,5 +62,8 @@ public class Account {
 
     public void setPockets(Set<Pocket> pockets) {
         this.pockets = pockets;
+        for(Pocket pocket : pockets) {
+            pocket.setAccount(this);
+        }
     }
 }
