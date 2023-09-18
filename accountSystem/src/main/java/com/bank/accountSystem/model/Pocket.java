@@ -1,18 +1,23 @@
 package com.bank.accountSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "pocket")
 public class Pocket {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
     private String pocketName;
-    @Column(unique = true)
+    @Column
     private String pocketNumber;
     @Column
-    private double initial_balance;
+    private double pocketInitialBalance;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="account_id", nullable=false)
     private Account account;
@@ -20,11 +25,11 @@ public class Pocket {
     public Pocket() {
     }
 
-    public Pocket(Integer id, String pocketName, String pocketNumber, double initial_balance, Account account) {
+    public Pocket(Integer id, String pocketName, String pocketNumber, double pocketInitialBalance, Account account) {
         this.id = id;
         this.pocketName = pocketName;
         this.pocketNumber = pocketNumber;
-        this.initial_balance = initial_balance;
+        this.pocketInitialBalance = pocketInitialBalance;
         this.account = account;
     }
 
@@ -44,12 +49,12 @@ public class Pocket {
         this.pocketName = pocketName;
     }
 
-    public double getInitial_balance() {
-        return initial_balance;
+    public double getPocketInitialBalance() {
+        return pocketInitialBalance;
     }
 
-    public void setInitial_balance(double initial_balance) {
-        this.initial_balance = initial_balance;
+    public void setPocketInitialBalance(double pocketInitialBalance) {
+        this.pocketInitialBalance = pocketInitialBalance;
     }
 
     public Account getAccountNumber() {

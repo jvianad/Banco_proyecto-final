@@ -1,5 +1,7 @@
 package com.bank.accountSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,8 +21,7 @@ public class Account {
     @Column
     private double initial_balance;
 
-    /*private boolean isEnabled;*/
-
+    @JsonIgnore
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Pocket> pockets = new HashSet<>();
 
