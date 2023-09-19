@@ -3,6 +3,7 @@ package com.bank.accountSystem.controller;
 import com.bank.accountSystem.dto.DepositRequest;
 import com.bank.accountSystem.dto.TransferRequest;
 import com.bank.accountSystem.model.Account;
+import com.bank.accountSystem.model.Pocket;
 import com.bank.accountSystem.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,14 +27,21 @@ public class AccountController {
         return ResponseEntity.ok(accounts);
     }
 
-    //1.1 APERTURA DE CUENTA
+    //1.1 OBTENER BOLSILLOS
+    @GetMapping("/{accountNumber}/pockets")
+    public ResponseEntity<List<Pocket>> getPocketsByAccountNumber(@PathVariable String accountNumber) {
+        List<Pocket> pockets = accountService.getPocketsByAccountNumber(accountNumber);
+        return ResponseEntity.ok(pockets);
+    }
+
+    //1.2 APERTURA DE CUENTA
     @PostMapping
     public ResponseEntity<Account> saveAccount(@RequestBody Account account){
         Account savedAccount = accountService.saveAccount(account);
         return ResponseEntity.ok(savedAccount);
     }
 
-    //1.2 DEPOSITAR EN UNA CUENTA
+    //1.3 DEPOSITAR EN UNA CUENTA
     @PostMapping("/{accountNumber}/deposit")
     public ResponseEntity<String> realizarDeposito(@PathVariable("accountNumber") String accountNumber, @RequestBody DepositRequest depositRequest) {
         String resultDeposit = accountService.deposit(accountNumber, depositRequest.getAmount());
@@ -43,7 +51,7 @@ public class AccountController {
         return ResponseEntity.ok(resultDeposit);
     }
 
-    //1.3 TRANSFERENCIA A OTRA CUENTA
+    //1.4 TRANSFERENCIA A OTRA CUENTA
     @PostMapping("/transfer")
     public ResponseEntity<String> makeTransfer(@RequestBody TransferRequest transferRequest) {
         String resultTransfer = accountService.makeTransfer(transferRequest);
@@ -55,7 +63,7 @@ public class AccountController {
         return ResponseEntity.ok(resultTransfer);
     }
 
-    //1.4 CONSULTAR CUENTA
+    //1.5 CONSULTAR CUENTA
     @GetMapping("/{accountNumber}")
     public Account findByAccountNumber(@PathVariable String accountNumber){
         return accountService.findByAccountNumber(accountNumber);

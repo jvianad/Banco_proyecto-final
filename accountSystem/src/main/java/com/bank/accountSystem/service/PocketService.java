@@ -26,6 +26,7 @@ public class PocketService {
         Pocket pocket = new Pocket();
         pocket.setPocketName(pocketRequest.getName());
         pocket.setPocketInitialBalance(pocketRequest.getPocketInitialBalance());
+        pocket.setPocketNumber(pocketRequest.getPocketNumber());
         pocket.setAccount(account);
 
         // Actualizar el saldo de la cuenta principal

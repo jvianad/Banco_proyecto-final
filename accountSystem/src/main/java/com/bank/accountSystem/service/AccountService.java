@@ -2,10 +2,14 @@ package com.bank.accountSystem.service;
 
 import com.bank.accountSystem.dto.TransferRequest;
 import com.bank.accountSystem.model.Account;
+import com.bank.accountSystem.model.Pocket;
 import com.bank.accountSystem.repository.iAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class AccountService {
@@ -50,6 +54,16 @@ public class AccountService {
         accountRepository.save(sourceAccountNumber);
         accountRepository.save(targetAccountNumber);
         return "transfer completed successfully";
+    }
+
+    public List<Pocket> getPocketsByAccountNumber(String accountNumber) {
+        Account account = accountRepository.findByAccountNumber(accountNumber);
+        if (account == null) {
+            throw new RuntimeException("No se encontró la cuenta");
+        }
+        Set<Pocket> pocketSet = account.getPockets();
+        List<Pocket> pockets = new ArrayList<>(pocketSet);
+        return pockets;
     }
 
 }
