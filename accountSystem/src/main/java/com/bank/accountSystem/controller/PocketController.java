@@ -1,6 +1,7 @@
 package com.bank.accountSystem.controller;
 
 import com.bank.accountSystem.dto.PocketRequest;
+import com.bank.accountSystem.dto.TransferToPocketRequest;
 import com.bank.accountSystem.model.Account;
 import com.bank.accountSystem.model.Pocket;
 import com.bank.accountSystem.repository.iAccountRepository;
@@ -22,9 +23,19 @@ public class PocketController {
     public ResponseEntity<String> createPocket(@RequestBody PocketRequest pocketRequest) {
         try {
             pocketService.createPocket(pocketRequest);
-            return ResponseEntity.ok("Bolsillo creado exitosamente");
+            return ResponseEntity.ok("Pocket created successfully");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el bolsillo");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating pocket");
+        }
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<String> transferToPocket(@RequestBody TransferToPocketRequest transferToPocketRequest) {
+        try {
+            pocketService.transferToPocket(transferToPocketRequest);
+            return ResponseEntity.ok("successful transfer to pocket");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error when transferring to pocket");
         }
     }
 }

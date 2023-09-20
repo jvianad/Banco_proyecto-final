@@ -27,7 +27,7 @@ public class AccountController {
         return ResponseEntity.ok(accounts);
     }
 
-    //1.1 OBTENER BOLSILLOS
+    //1.1 OBTENER BOLSILLOS DE CADA CUENTA
     @GetMapping("/{accountNumber}/pockets")
     public ResponseEntity<List<Pocket>> getPocketsByAccountNumber(@PathVariable String accountNumber) {
         List<Pocket> pockets = accountService.getPocketsByAccountNumber(accountNumber);
@@ -65,8 +65,12 @@ public class AccountController {
 
     //1.5 CONSULTAR CUENTA
     @GetMapping("/{accountNumber}")
-    public Account findByAccountNumber(@PathVariable String accountNumber){
-        return accountService.findByAccountNumber(accountNumber);
+    public ResponseEntity<Account> findByAccountNumber(@PathVariable String accountNumber){
+        Account account = accountService.findByAccountNumber(accountNumber);
+        if (account == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(account);
     }
 
 }
