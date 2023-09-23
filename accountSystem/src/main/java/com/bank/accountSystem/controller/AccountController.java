@@ -73,4 +73,15 @@ public class AccountController {
         return ResponseEntity.ok(account);
     }
 
+    //1.6 ELIMINAR CUENTA
+    @DeleteMapping("/{accountNumber}")
+    public ResponseEntity<String> deleteAccount(@PathVariable String accountNumber){
+        try{
+            accountService.deleteAccountByAccNumber(accountNumber);
+            return ResponseEntity.ok("Account successfully deleted");
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 }

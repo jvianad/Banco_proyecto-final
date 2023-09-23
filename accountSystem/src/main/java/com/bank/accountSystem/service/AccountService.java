@@ -66,4 +66,11 @@ public class AccountService {
         return pockets;
     }
 
+    public void deleteAccountByAccNumber(String accountNumber){
+        Account account = accountRepository.findByAccountNumber(accountNumber);
+        if (account == null) {
+            throw new RuntimeException("Account not found");
+        }
+        accountRepository.delete(account);
+    }
 }
