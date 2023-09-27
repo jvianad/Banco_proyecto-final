@@ -1,7 +1,6 @@
 package com.bank.accountSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,13 +9,17 @@ import java.util.Set;
 @Table(name = "account")
 public class Account {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private String accountNumber;
     @Column
-    private String owner;
-    @Column
     private double initial_balance;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
     @JsonIgnore
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private Set<Pocket> pockets = new HashSet<>();
@@ -32,11 +35,11 @@ public class Account {
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
-    public String getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
     public double getInitial_balance() {
         return initial_balance;

@@ -35,10 +35,14 @@ public class AccountController {
     }
 
     //1.2 APERTURA DE CUENTA
-    @PostMapping
-    public ResponseEntity<Account> saveAccount(@RequestBody Account account){
-        Account savedAccount = accountService.saveAccount(account);
-        return ResponseEntity.ok(savedAccount);
+    @PostMapping("/{userId}")
+    public ResponseEntity<Account> createAccount(@PathVariable("userId") Long userId, @RequestBody Account account) {
+        Account createdAccount = accountService.saveAccount(userId, account);
+        if (createdAccount != null) {
+            return ResponseEntity.ok(createdAccount);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     //1.3 DEPOSITAR EN UNA CUENTA

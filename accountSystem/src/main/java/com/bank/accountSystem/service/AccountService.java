@@ -3,7 +3,9 @@ package com.bank.accountSystem.service;
 import com.bank.accountSystem.dto.TransferRequest;
 import com.bank.accountSystem.model.Account;
 import com.bank.accountSystem.model.Pocket;
+import com.bank.accountSystem.model.User;
 import com.bank.accountSystem.repository.iAccountRepository;
+import com.bank.accountSystem.repository.iUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.Set;
 public class AccountService {
     @Autowired
     private iAccountRepository accountRepository;
+    @Autowired
+    private iUserRepository userRepository;
 
     public List<Account> getAllAccounts(){
         return accountRepository.findAll();
@@ -24,8 +28,13 @@ public class AccountService {
         return accountRepository.findByAccountNumber(accountNumber);
     }
 
-    public Account saveAccount(Account account){
-        return accountRepository.save(account);
+    public Account saveAccount(Long userId, Account account){
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            account.setUser(user);
+            return accountRepository.save(account);
+        }
+        return null;
     }
 
     public String deposit(String accountNumber, double amount) {
